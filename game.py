@@ -30,8 +30,8 @@ class Button():
         drawing.fill(ColorFon)
 
     def draw(self, drawing, outline=None):
-        if outline:
-            pygame.draw.rect(drawing, outline, (248, self.y - 2, self.width + 4, self.height + 4), 2)
+        # if outline:
+        #     pygame.draw.rect(drawing, outline, (248, self.y - 2, self.width + 4, self.height + 4), 2)
 
         pygame.draw.rect(drawing, self.color, (self.x, self.y, self.width, self.height), 0)
 
@@ -54,22 +54,27 @@ class Button():
         return False
 
 
-First = Button(ColorXbutton2, 250, 100, 200, 75, 50, "Start")
-Second = Button(ColorXButton, 250, 200, 200, 75, 50, "Quit")
+First = Button(ColorXbutton2, 100, 200, 220, 75, 50, "Start")
+Second = Button(ColorXButton, 400, 200, 220, 75, 50, "Quit")
 Continue = Button(ColorXbutton2, 250, 100, 200, 75, 25, "Continue?")
 Quit = Button(ColorXButton, 250, 200, 200, 75, 25, "Quit")
 Fin = Button(ColorXButton, 250, 100, 200, 75, 25, 'Finality!')
+Starting_text = Button(ColorXButton, 250, 25, 200, 75, 50, 'Hello <3!')
 Quit_fin = Button(ColorXButton, 250, 200, 200, 75, 25, "Quit")
+
 
 def Menu():
     drawing.fill((0, 100, 210))
+    Starting_text.write()
     First.draw(drawing, (0, 0, 0))
     Second.draw(drawing, (0, 0, 0))
+
 
 def Menu2():
     drawing.fill((0, 100, 210))
     Continue.draw(drawing, (0, 0, 0))
     Quit.draw(drawing, (0, 0, 0))
+
 
 def Finallity():
     drawing.fill((0, 100, 210))
@@ -164,11 +169,15 @@ def Game_lvl1():
                 bullet_list.remove(bullet)
                 all_sprites_list.remove(bullet)
                 score += 1
-                pygame.mixer.music.load('kik.wav')
+                pygame.mixer.music.load('Margaret.wav')
                 pygame.mixer.music.play()
             if bullet.rect.y < -10:
                 bullet_list.remove(bullet)
                 all_sprites_list.remove(bullet)
+        key = pygame.key.get_pressed()
+        # god mod (for creator testing)
+        if key[pygame.K_5]:
+            runnning = True
         f2 = pygame.font.SysFont('serif', 30)
         text2 = f2.render(f"Score: {score}", False,
                           (0, 0, 0))
@@ -262,11 +271,15 @@ def Game_lvl2():
                 bullet_list.remove(bullet)
                 all_sprites_list.remove(bullet)
                 score += 1
-                pygame.mixer.music.load('kik.wav')
+                pygame.mixer.music.load('Margaret.wav')
                 pygame.mixer.music.play()
             if bullet.rect.y < -10:
                 bullet_list.remove(bullet)
                 all_sprites_list.remove(bullet)
+        key = pygame.key.get_pressed()
+        # god mod (for creator testing)
+        if key[pygame.K_5]:
+            runnning = True
         f2 = pygame.font.SysFont('serif', 30)
         text2 = f2.render(f"Score: {score}", False,
                           (0, 0, 0))
@@ -318,7 +331,6 @@ while running:
             running = False
             pygame.quit()
             quit()
-
 
             if event.type == pygame.MOUSEMOTION:
                 if First.positions(pos):
