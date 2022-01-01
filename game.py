@@ -10,10 +10,14 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
-
+YELLLOW = (255, 255, 0)
 game_state = "True"
 running = True
-
+pygame.init()
+screen_width = 700
+screen_height = 400
+screen = pygame.display.set_mode([screen_width, screen_height])
+login = ""
 
 class Button():
     def __init__(self, color, x, y, width, height, size_test, text=''):
@@ -29,9 +33,10 @@ class Button():
         drawing = pygame.display.set_mode((700, 400))
         drawing.fill(ColorFon)
 
+
     def draw(self, drawing, outline=None):
-        # if outline:
-        #     pygame.draw.rect(drawing, outline, (248, self.y - 2, self.width + 4, self.height + 4), 2)
+        #if outline:
+            #pygame.draw.rect(drawing, outline, (248, self.y - 2, self.width + 4, self.height + 4), 2)
 
         pygame.draw.rect(drawing, self.color, (self.x, self.y, self.width, self.height), 0)
 
@@ -53,13 +58,69 @@ class Button():
                 return True
         return False
 
+    def textbox(font30):
+        global login
+        f1 = pygame.font.SysFont('Times New Roman', 50)
+        f2 = pygame.font.SysFont('Times New Roman', 20)
+        screen.fill((0, 100, 210))
+        text1 = f1.render('\_ Введите имя игрока _/', 20, (0, 0, 0))
+        info = f2.render('*логин должен состоять из 10 или менее символов!', 10, (0, 0, 0))
+        screen.blit(info, (130, 350))
+        screen.blit(text1, (90, 50))
+        input = pygame.Rect(100, 150, 800, 100)
+        color_inactive = YELLLOW
+        color_active = BLUE
+        color = color_inactive
+        running = False
+        done = False
+        font = font30
+        while not done:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.event.post(pygame.event.Event(pygame.QUIT))
+                    done = True
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if input.collidepoint(event.pos):
+                        running = True
+                    else:
+                        running = False
+                    color = color_active if running else color_inactive
+                elif event.type == pygame.KEYDOWN:
+                    if running:
+                        if len(login) >= 11:
+                            if event.key == pygame.K_BACKSPACE:
+                                login = login[:-1]
+                            else:
+                                continue
+                        if event.key == pygame.K_RETURN:
+                            print(login)
+                            done = True
+                        elif event.key == pygame.K_BACKSPACE:
+                            login = login[:-1]
+                        else:
+                            login += event.unicode
+
+                        print("DEBUG: text is now [%s]" % (login))
+                        pygame.display.flip()
+            text_surface = font.render(login, True, BLACK)
+            width = max(500, text_surface.get_width() + 10)
+            input.w = width
+            pygame.draw.rect(screen, color, input, 2)
+            screen.blit(text_surface, (input.x + 5, input.y + 5))
+            pygame.display.flip()
+
+        return login
+
+    font = pygame.font.SysFont('Times New Roman', 75)
+    textbox(font)
+
 
 First = Button(ColorXbutton2, 100, 200, 220, 75, 50, "Start")
 Second = Button(ColorXButton, 400, 200, 220, 75, 50, "Quit")
 Continue = Button(ColorXbutton2, 250, 100, 200, 75, 25, "Continue?")
 Quit = Button(ColorXButton, 250, 200, 200, 75, 25, "Quit")
 Fin = Button(ColorXButton, 250, 100, 200, 75, 25, 'Finality!')
-Starting_text = Button(ColorXButton, 250, 25, 200, 75, 50, 'Hello <3!')
+Starting_text = Button(ColorXButton, 250, 25, 200, 75, 50, f'Hello {login}')
 Quit_fin = Button(ColorXButton, 250, 200, 200, 75, 25, "Quit")
 
 
@@ -83,7 +144,8 @@ def Finallity():
 
 
 def Game_lvl1():
-    global game_state
+    global game_state, login
+
     class Block(pygame.sprite.Sprite):
         def __init__(self, color):
             super().__init__()
@@ -137,7 +199,7 @@ def Game_lvl1():
     clock = pygame.time.Clock()
     score = 0
     f2 = pygame.font.SysFont('serif', 35)
-    text2 = f2.render(f"Score: {score}", False,
+    text2 = f2.render(f"Score:{score}..............Player:{login}", True,
                       (250, 200, 0))
     screen.blit(text2, (0, 0))
     player.rect.y = 370
@@ -169,7 +231,7 @@ def Game_lvl1():
                 bullet_list.remove(bullet)
                 all_sprites_list.remove(bullet)
                 score += 1
-                pygame.mixer.music.load('Margaret.wav')
+                pygame.mixer.music.load('Kik.wav')
                 pygame.mixer.music.play()
             if bullet.rect.y < -10:
                 bullet_list.remove(bullet)
@@ -179,7 +241,7 @@ def Game_lvl1():
         if key[pygame.K_5]:
             runnning = True
         f2 = pygame.font.SysFont('serif', 30)
-        text2 = f2.render(f"Score: {score}", False,
+        text2 = f2.render(f"Score: {score} .............. Player: {login}", False,
                           (0, 0, 0))
         screen.blit(text2, (0, 0))
         all_sprites_list.draw(screen)
@@ -189,7 +251,7 @@ def Game_lvl1():
 
 
 def Game_lvl2():
-    global game_state
+    global game_state, login
     class Block(pygame.sprite.Sprite):
         def __init__(self, color):
             super().__init__()
@@ -243,7 +305,7 @@ def Game_lvl2():
     clock = pygame.time.Clock()
     score = 0
     f2 = pygame.font.SysFont('serif', 35)
-    text2 = f2.render(f"Score: {score}", False,
+    text2 = f2.render(f"Score: {score} .............. Player: {login}", False,
                       (250, 200, 0))
     screen.blit(text2, (0, 0))
     player.rect.y = 370
@@ -271,7 +333,7 @@ def Game_lvl2():
                 bullet_list.remove(bullet)
                 all_sprites_list.remove(bullet)
                 score += 1
-                pygame.mixer.music.load('Margaret.wav')
+                pygame.mixer.music.load('Kik.wav')
                 pygame.mixer.music.play()
             if bullet.rect.y < -10:
                 bullet_list.remove(bullet)
@@ -281,7 +343,7 @@ def Game_lvl2():
         if key[pygame.K_5]:
             runnning = True
         f2 = pygame.font.SysFont('serif', 30)
-        text2 = f2.render(f"Score: {score}", False,
+        text2 = f2.render(f"Score: {score}.............. Player: {login}", False,
                           (0, 0, 0))
         screen.blit(text2, (0, 0))
         all_sprites_list.draw(screen)
