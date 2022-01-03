@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c135d37e-1665-401e-bad6-6ed95a40ff7f" name="Changes" comment="add textbox, login player, change info in round (score, player)">
-      <change afterPath="$PROJECT_DIR$/users.db" afterDir="false" />
+    <list default="true" id="c135d37e-1665-401e-bad6-6ed95a40ff7f" name="Changes" comment="was added sqlite database, added timer play">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users.db" beforeDir="false" afterPath="$PROJECT_DIR$/users.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +17,14 @@
   <component name="Git.Settings">
     <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="22n2UQdj1WGYnQY5X6eRTAq4RuB" />
   <component name="ProjectLevelVcsManager">
@@ -144,7 +153,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641076636896</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="was added sqlite database, added timer play">
+      <created>1641163528029</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1641163528029</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -168,30 +184,16 @@
     <MESSAGE value="added final window, added function 'write'/" />
     <MESSAGE value="add god mode, changed position buttons, hide outline" />
     <MESSAGE value="add textbox, login player, change info in round (score, player)" />
-    <option name="LAST_COMMIT_MESSAGE" value="add textbox, login player, change info in round (score, player)" />
+    <MESSAGE value="was added sqlite database, added timer play" />
+    <option name="LAST_COMMIT_MESSAGE" value="was added sqlite database, added timer play" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/game.py</url>
-          <line>235</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/game.py</url>
-          <line>247</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/game.py</url>
-          <line>12</line>
+          <line>14</line>
           <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/game.py</url>
-          <line>165</line>
-          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -3,10 +3,12 @@ import random
 import sqlite3
 import time
 
-ColorXButton = (250, 105, 105)
-ColorXbutton2 = (171, 168, 9)
-ColorYButton = (200, 80, 51)
+ColorXButton = (235, 85, 85)
+ColorXbutton2 = (250, 105, 105)
+ColorYButton = (225, 225, 0)
 ColorYButton2 = (240, 240, 4)
+ColorButton3 = (119, 221, 119)
+ColorButtons3 = (109, 211, 109)
 ColorFon = (0, 100, 210)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -19,6 +21,8 @@ pygame.init()
 screen_width = 700
 screen_height = 400
 screen = pygame.display.set_mode([screen_width, screen_height])
+last_lvl_1 = ''
+last_lvl_2 = ''
 login = ""
 time_lvl_1 = '-'
 time_lvl_2 = '-'
@@ -75,7 +79,7 @@ class Button():
         return False
 
     def textbox(font30):
-        global login
+        global login, last_lvl_1, last_lvl_2, id_player
         f1 = pygame.font.SysFont('Times New Roman', 50)
         f2 = pygame.font.SysFont('Times New Roman', 20)
         screen.fill((0, 100, 210))
@@ -124,20 +128,37 @@ class Button():
             pygame.draw.rect(screen, color, input, 2)
             screen.blit(text_surface, (input.x + 5, input.y + 5))
             pygame.display.flip()
-
+        con = sqlite3.connect('users.db')
+        cur = con.cursor()
+        cur.execute(f'SELECT * FROM logins WHERE login = "{login}" ')
+        value = cur.fetchall()
+        if value:
+            id_player = value[0][0]
+            login = value[0][1]
+            last_lvl_1 = value[0][2]
+            last_lvl_2 = value[0][3]
+        else:
+            pass
         return login
 
     font = pygame.font.SysFont('Times New Roman', 75)
     textbox(font)
 
 
+rules = Button(ColorButtons3, 240, 300, 240, 75, 50, "Rules")
 First = Button(ColorXbutton2, 100, 200, 220, 75, 50, "Start")
-Second = Button(ColorXButton, 400, 200, 220, 75, 50, "Quit")
+Second = Button(ColorYButton2, 400, 200, 220, 75, 50, "Quit")
 Continue = Button(ColorXbutton2, 250, 100, 200, 75, 25, "Continue?")
 Quit = Button(ColorXButton, 250, 200, 200, 75, 25, "Quit")
+Quit_for_rules = Button(ColorXButton, 250, 300, 200, 75, 25, "Quit")
 Fin = Button(ColorXButton, 250, 100, 200, 75, 25, 'Finality!')
 Starting_text = Button(ColorXButton, 250, 25, 200, 75, 50, f'Hello {login}')
 Quit_fin = Button(ColorXButton, 250, 200, 200, 75, 25, "Quit")
+last_result_lvl_1 = Button(ColorXButton, 250, 275, 200, 75, 20, f'Last 1 lvl was completed: {last_lvl_1}')
+last_result_lvl_2 = Button(ColorXButton, 250, 300, 200, 75, 20, f'Last 2 lvl was completed: {last_lvl_2}')
+result_lvl_1 = Button(ColorXButton, 250, 325, 200, 75, 20, f'1 lvl was completed: {time_lvl_1}')
+result_lvl_2 = Button(ColorXButton, 250, 350, 200, 75, 20, f'2 lvl was completed: {time_lvl_2}')
+result_better = Button(ColorXButton, 250, 250, 200, 75, 20, 'You results better than last!')
 
 
 def Menu():
@@ -145,6 +166,7 @@ def Menu():
     Starting_text.write()
     First.draw(drawing, (0, 0, 0))
     Second.draw(drawing, (0, 0, 0))
+    rules.draw(drawing, (0, 0, 0))
 
 
 def Menu2():
@@ -153,9 +175,75 @@ def Menu2():
     Quit.draw(drawing, (0, 0, 0))
 
 
+def Rules():                                    # делала Лиза
+    global game_state
+    drawing.fill((0, 100, 210))
+    WHITE = [255, 255, 255]
+    Quit_for_rules.draw(drawing, (0, 0, 0))
+    SIZE = [700, 400]
+    done = False
+    screen = pygame.display.set_mode(SIZE)
+    pygame.display.set_caption("Rules")
+
+    cash = []
+
+    for i in range(50):
+        x = random.randrange(0, 700)
+        y = random.randrange(0, 400)
+        cash.append([x, y])
+
+    clock = pygame.time.Clock()
+
+    while not done:
+        pos = pygame.mouse.get_pos()
+        for event in pygame.event.get():
+            if game_state == 'rules':
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if Quit_for_rules.positions(pos):
+                        game_state = 'True'
+                        done = True
+            if event.type == pygame.QUIT:
+                done = True
+
+        drawing.fill((0, 100, 210))
+        for i in range(len(cash)):
+
+            pygame.draw.circle(screen, WHITE, cash[i], 4)
+
+            cash[i][1] += 1
+
+            if cash[i][1] > 400:
+                y = random.randrange(-50, -10)
+                cash[i][1] = y
+                x = random.randrange(0, 700)
+                cash[i][0] = x
+        f1 = pygame.font.SysFont('Times New Roman',
+                                 35)
+        text1 = f1.render('Стрелять на левую кнопку мыши',
+                          1,
+                          (0, 0, 0))
+        text2 = f1.render('Двигаться с помощью компьютерной мыши',
+                          1,
+                          (0, 0, 0))
+        text3 = f1.render('Желаем удачи !',
+                          1,
+                          (0, 0, 0))
+        Quit_for_rules.draw(drawing, (0, 0, 0))
+
+        screen.blit(text1, (10, 50))
+        screen.blit(text2, (10, 90))
+        screen.blit(text3, (10, 130))
+
+        pygame.display.update()
+        pygame.display.flip()
+        clock.tick(20)
+    game_state = 'True'
+
+
 def Finallity():
     drawing.fill((0, 100, 210))
     Quit_fin.draw(drawing, (0, 0, 0))
+    Fin.write()
     # Подключение к БД
     con = sqlite3.connect("users.db")
 
@@ -169,6 +257,13 @@ def Finallity():
     con.commit()
     cur.close()
     con.close()
+    if last_lvl_1 and last_lvl_2:
+        if float(last_lvl_1) > float(time_lvl_1) and float(last_lvl_2) > float(time_lvl_2):
+            result_better.write()
+        if last_lvl_1 == '' and last_lvl_2 == '':
+            pass
+        last_result_lvl_1.write()
+        last_result_lvl_2.write()
 
 
 def Game_lvl1():
@@ -227,7 +322,8 @@ def Game_lvl1():
     clock = pygame.time.Clock()
     score = 0
     f2 = pygame.font.SysFont('serif', 35)
-    text2 = f2.render(f"Score:{score}..............Player:{login}", True,
+    text2 = f2.render(f"Score:{score}..............Player:{login}",
+                      True,
                       (250, 200, 0))
     screen.blit(text2, (0, 0))
     player.rect.y = 370
@@ -426,6 +522,8 @@ while running:
         Menu()
     elif game_state == "game_1":
         Game_lvl1()
+    elif game_state == 'rules':
+        Rules()
     elif game_state == 'continue':
         Menu2()
     elif game_state == 'game_2':
@@ -436,6 +534,10 @@ while running:
 
     for event in pygame.event.get():
         pos = pygame.mouse.get_pos()
+        if game_state == 'rules':
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if Quit_for_rules.positions(pos):
+                    game_state = 'True'
         if game_state == 'continue':
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if Continue.positions(pos):
@@ -446,6 +548,8 @@ while running:
                     quit()
         if game_state == "True":
             if event.type == pygame.MOUSEBUTTONDOWN:
+                if rules.positions(pos):
+                    game_state = 'rules'
                 if First.positions(pos):
                     game_state = "game_1"
                 if Second.positions(pos):
@@ -461,13 +565,17 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+        if event.type == pygame.MOUSEMOTION:
+            if First.positions(pos):
+                First.color = ColorXButton
+            else:
+                First.color = ColorXbutton2
+            if Second.positions(pos):
+                Second.color = ColorYButton
+            else:
+                Second.color = ColorYButton2
+            if rules.positions(pos):
+                rules.color = ColorButtons3
+            else:
+                rules.color = ColorButton3
 
-            if event.type == pygame.MOUSEMOTION:
-                if First.positions(pos):
-                    First.color = ColorXButton
-                else:
-                    First.color = ColorYButton
-                if Second.positions(pos):
-                    Second.color = ColorYButton
-                else:
-                    Second.color = ColorYButton2
