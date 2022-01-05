@@ -15,17 +15,20 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 YELLLOW = (255, 255, 0)
+GREY = (128, 128, 128)
 game_state = "True"
 running = True
+changed_results_lvl_1 = True
+changed_results_lvl_2 = True
 pygame.init()
 screen_width = 700
 screen_height = 400
 screen = pygame.display.set_mode([screen_width, screen_height])
-last_lvl_1 = ''
-last_lvl_2 = ''
+last_lvl_1 = 0
+last_lvl_2 = 0
 login = ""
-time_lvl_1 = '-'
-time_lvl_2 = '-'
+time_lvl_1 = 0
+time_lvl_2 = 0
 id_player = 0
 con = sqlite3.connect('users.db')
 cur = con.cursor()
@@ -94,17 +97,20 @@ class Button():
         running = False
         done = False
         font = font30
+
         while not done:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.event.post(pygame.event.Event(pygame.QUIT))
                     done = True
+
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if input.collidepoint(event.pos):
                         running = True
                     else:
                         running = False
                     color = color_active if running else color_inactive
+
                 elif event.type == pygame.KEYDOWN:
                     if running:
                         if len(login) >= 11:
@@ -121,10 +127,12 @@ class Button():
                             login += event.unicode
 
                         print("DEBUG: text is now [%s]" % (login))
+
                         pygame.display.flip()
             text_surface = font.render(login, True, BLACK)
             width = max(500, text_surface.get_width() + 10)
             input.w = width
+
             pygame.draw.rect(screen, color, input, 2)
             screen.blit(text_surface, (input.x + 5, input.y + 5))
             pygame.display.flip()
@@ -135,8 +143,14 @@ class Button():
         if value:
             id_player = value[0][0]
             login = value[0][1]
-            last_lvl_1 = value[0][2]
-            last_lvl_2 = value[0][3]
+            if value[0][2] is None:
+                last_lvl_1 = 0
+            else:
+                last_lvl_1 = value[0][2]
+            if value[0][3] is None:
+                last_lvl_2 = 0
+            else:
+                last_lvl_2 = value[0][3]
         else:
             pass
         return login
@@ -167,6 +181,12 @@ def Menu():
     First.draw(drawing, (0, 0, 0))
     Second.draw(drawing, (0, 0, 0))
     rules.draw(drawing, (0, 0, 0))
+    pygame.draw.rect(screen, GREY,
+                     (240, 300, 240, 75), 4)
+    pygame.draw.rect(screen, GREY,
+                     (100, 200, 220, 75), 4)
+    pygame.draw.rect(screen, GREY,
+                     (400, 200, 220, 75), 4)
 
 
 def Menu2():
@@ -175,8 +195,9 @@ def Menu2():
     Quit.draw(drawing, (0, 0, 0))
 
 
-def Rules():                                    # делала Лиза
+def Rules():  # делала Лиза
     global game_state
+
     drawing.fill((0, 100, 210))
     WHITE = [255, 255, 255]
     Quit_for_rules.draw(drawing, (0, 0, 0))
@@ -233,6 +254,8 @@ def Rules():                                    # делала Лиза
         screen.blit(text1, (10, 50))
         screen.blit(text2, (10, 90))
         screen.blit(text3, (10, 130))
+        pygame.draw.rect(screen, GREY,
+                         (250, 300, 200, 75), 4)
 
         pygame.display.update()
         pygame.display.flip()
@@ -244,30 +267,36 @@ def Finallity():
     drawing.fill((0, 100, 210))
     Quit_fin.draw(drawing, (0, 0, 0))
     Fin.write()
-    # Подключение к БД
-    con = sqlite3.connect("users.db")
 
-    # Создание курсора
-    cur = con.cursor()
-
-    # Выполнение запроса и получение всех результатов
-    cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_1, lvl_2) 
-                    VALUES ('{id_player}', '{login}', '{time_lvl_1}', '{time_lvl_2}')""")
-
-    con.commit()
-    cur.close()
-    con.close()
-    if last_lvl_1 and last_lvl_2:
-        if float(last_lvl_1) > float(time_lvl_1) and float(last_lvl_2) > float(time_lvl_2):
+    if True:
+        if not changed_results_lvl_1 and not changed_results_lvl_2:
             result_better.write()
-        if last_lvl_1 == '' and last_lvl_2 == '':
-            pass
-        last_result_lvl_1.write()
-        last_result_lvl_2.write()
+            result_lvl_1.write()
+            result_lvl_2.write()
+            # Подключение к БД
+            con = sqlite3.connect("users.db")
+
+            # Создание курсора
+            cur = con.cursor()
+
+            # Выполнение запроса и получение всех результатов
+            cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_1, lvl_2) 
+                            VALUES ('{id_player}', '{login}', '{time_lvl_1}', '{time_lvl_2}')""")
+
+            con.commit()
+            cur.close()
+            con.close()
+        if changed_results_lvl_1 and changed_results_lvl_2:
+            result_lvl_1.write()
+            result_lvl_2.write()
+            last_result_lvl_1.write()
+            last_result_lvl_2.write()
+    print(time_lvl_1)
+    print(time_lvl_2)
 
 
 def Game_lvl1():
-    global game_state, login, time_lvl_1
+    global game_state, login, time_lvl_1, changed_results_lvl_1
 
     class Block(pygame.sprite.Sprite):
         def __init__(self, color):
@@ -331,7 +360,7 @@ def Game_lvl1():
     while not runnning:
         if score == 75:
             toc = time.perf_counter()
-            time_lvl_1 = f'{toc - tic:0.3}'
+            time_lvl_1 = toc - tic
             runnning = True
 
         for event in pygame.event.get():
@@ -342,7 +371,7 @@ def Game_lvl1():
             # add god_mode (for skip test)
             elif event.type == pygame.K_5:
                 toc = time.perf_counter()
-                time_lvl_1 = f'{toc - tic:0.3}'
+                time_lvl_1 = toc - tic
                 runnning = True
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 bullet = Bullet()
@@ -368,7 +397,7 @@ def Game_lvl1():
         # god mod (for creator testing)
         if key[pygame.K_5]:
             toc = time.perf_counter()
-            time_lvl_1 = f'{toc - tic:0.3}'
+            time_lvl_1 = toc - tic
             runnning = True
         f2 = pygame.font.SysFont('serif', 30)
         text2 = f2.render(f"Score: {score} .............. Player: {login}", False,
@@ -377,25 +406,42 @@ def Game_lvl1():
         all_sprites_list.draw(screen)
         pygame.display.flip()
         clock.tick(60)
+    if float(last_lvl_1) > float(time_lvl_1):
+        # Подключение к БД
+        con = sqlite3.connect("users.db")
 
-    # Подключение к БД
-    con = sqlite3.connect("users.db")
+        # Создание курсора
+        cur = con.cursor()
 
-    # Создание курсора
-    cur = con.cursor()
+        # Выполнение запроса и получение всех результатов
+        cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_1, lvl_2) 
+                            VALUES ('{id_player}', '{login}', '{time_lvl_1}', '{time_lvl_2}')""")
 
-    # Выполнение запроса и получение всех результатов
-    cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_1, lvl_2) 
-                        VALUES ('{id_player}', '{login}', '{time_lvl_1}', '{time_lvl_2}')""")
+        con.commit()
+        cur.close()
+        con.close()
+        changed_results_lvl_1 = False
+    elif last_lvl_1 == 0 and time_lvl_1 != 0:
+        con = sqlite3.connect("users.db")
 
-    con.commit()
-    cur.close()
-    con.close()
+        # Создание курсора
+        cur = con.cursor()
+
+        # Выполнение запроса и получение всех результатов
+        cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_1, lvl_2) 
+                                    VALUES ('{id_player}', '{login}', '{time_lvl_1}', '{time_lvl_2}')""")
+
+        con.commit()
+        cur.close()
+        con.close()
+        changed_results_lvl_1 = False
+    else:
+        pass
     game_state = 'continue'
 
 
 def Game_lvl2():
-    global game_state, login, time_lvl_2
+    global game_state, login, time_lvl_2, changed_results_lvl_2
 
     class Block(pygame.sprite.Sprite):
         def __init__(self, color):
@@ -430,9 +476,11 @@ def Game_lvl2():
             self.rect.y -= 3
 
     pygame.init()
+
     screen_width = 700
     screen_height = 400
     screen = pygame.display.set_mode([screen_width, screen_height])
+
     all_sprites_list = pygame.sprite.Group()
     block_list = pygame.sprite.Group()
     bullet_list = pygame.sprite.Group()
@@ -459,8 +507,9 @@ def Game_lvl2():
     while not runnning:
         if score == 50:
             toc = time.perf_counter()
-            time_lvl_2 = f'{toc - tic:0.3}'
+            time_lvl_2 = toc - tic
             runnning = True
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT or \
                     event.type == pygame.KEYUP and \
@@ -491,7 +540,7 @@ def Game_lvl2():
         # god mod (for creator testing)
         if key[pygame.K_5]:
             toc = time.perf_counter()
-            time_lvl_2 = f'{toc - tic:0.3}'
+            time_lvl_2 = toc - tic
             runnning = True
 
         f2 = pygame.font.SysFont('serif', 30)
@@ -501,19 +550,38 @@ def Game_lvl2():
         all_sprites_list.draw(screen)
         pygame.display.flip()
         clock.tick(60)
-    # Подключение к БД
-    con = sqlite3.connect("users.db")
+    if float(last_lvl_2) > float(time_lvl_2):
+        # Подключение к БД
+        con = sqlite3.connect("users.db")
 
-    # Создание курсора
-    cur = con.cursor()
+        # Создание курсора
+        cur = con.cursor()
 
-    # Выполнение запроса и получение всех результатов
-    cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_2) 
-                            VALUES ('{id_player}', '{login}', '{time_lvl_2}')""")
+        # Выполнение запроса и получение всех результатов
+        cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_1, lvl_2) 
+                                VALUES ('{id_player}', '{login}', '{time_lvl_1}', '{time_lvl_2}')""")
 
-    con.commit()
-    cur.close()
-    con.close()
+        con.commit()
+        cur.close()
+        con.close()
+        changed_results_lvl_2 = False
+    elif last_lvl_2 == 0 and float(time_lvl_2) != 0:
+        # Подключение к БД
+        con = sqlite3.connect("users.db")
+
+        # Создание курсора
+        cur = con.cursor()
+
+        # Выполнение запроса и получение всех результатов
+        cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_1, lvl_2) 
+                                        VALUES ('{id_player}', '{login}', '{time_lvl_1}', '{time_lvl_2}')""")
+
+        con.commit()
+        cur.close()
+        con.close()
+        changed_results_lvl_2 = False
+    else:
+        pass
     game_state = 'final'
 
 
@@ -526,10 +594,16 @@ while running:
         Rules()
     elif game_state == 'continue':
         Menu2()
+        pygame.draw.rect(screen, GREY,
+                         (250, 200, 200, 75), 4)
+        pygame.draw.rect(screen, GREY,
+                         (250, 100, 200, 75), 4)
     elif game_state == 'game_2':
         Game_lvl2()
     elif game_state == 'final':
         Finallity()
+        pygame.draw.rect(screen, GREY,
+                         (250, 200, 200, 75), 4)
     pygame.display.update()
 
     for event in pygame.event.get():
@@ -557,6 +631,7 @@ while running:
                     pygame.quit()
                     quit()
         if game_state == 'final':
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if Quit.positions(pos):
                     run = False
@@ -578,4 +653,5 @@ while running:
                 rules.color = ColorButtons3
             else:
                 rules.color = ColorButton3
-
+print(time_lvl_1)
+print(time_lvl_2)

@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c135d37e-1665-401e-bad6-6ed95a40ff7f" name="Changes" comment="was added sqlite database, added timer play">
+    <list default="true" id="c135d37e-1665-401e-bad6-6ed95a40ff7f" name="Changes" comment="was fixed final window, fixed buttons, added window with help info (rules with animation snow)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/users.db" beforeDir="false" afterPath="$PROJECT_DIR$/users.db" afterDir="false" />
@@ -160,7 +160,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641163528029</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="was fixed final window, fixed buttons, added window with help info (rules with animation snow)">
+      <created>1641244706298</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1641244706298</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -185,15 +192,21 @@
     <MESSAGE value="add god mode, changed position buttons, hide outline" />
     <MESSAGE value="add textbox, login player, change info in round (score, player)" />
     <MESSAGE value="was added sqlite database, added timer play" />
-    <option name="LAST_COMMIT_MESSAGE" value="was added sqlite database, added timer play" />
+    <MESSAGE value="was fixed final window, fixed buttons, added window with help info (rules with animation snow)" />
+    <option name="LAST_COMMIT_MESSAGE" value="was fixed final window, fixed buttons, added window with help info (rules with animation snow)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/game.py</url>
-          <line>14</line>
-          <option name="timeStamp" value="5" />
+          <line>267</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/game.py</url>
+          <line>603</line>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
