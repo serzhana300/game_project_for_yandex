@@ -397,6 +397,7 @@ def Game_lvl1():
                 bullet.rect.y = player.rect.y
                 all_sprites_list.add(bullet)
                 bullet_list.add(bullet)
+
         all_sprites_list.update()
         drawing.fill(WHITE)
         for bullet in bullet_list:
