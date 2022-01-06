@@ -419,7 +419,7 @@ def Game_lvl1():
             runnning = True
         # просто приколюха ржачная, пасхалка
         if key[pygame.K_1]:
-            os.system('pretty_presents.MP4')
+            os.system('pretty_gift.MP4')
         f2 = pygame.font.SysFont('serif', 30)
         text2 = f2.render(f"Score: {score} .............. Player: {login}", False,
                           (0, 0, 0))
@@ -566,7 +566,7 @@ def Game_lvl2():
 
         # просто приколюха ржачная, пасхалка
         if key[pygame.K_1]:
-            os.system('pretty_presents.MP4')
+            os.system('pretty_gift.MP4')
 
         f2 = pygame.font.SysFont('serif', 30)
         text2 = f2.render(f"Score: {score}.............. Player: {login}", False,
