@@ -2,6 +2,7 @@ import pygame
 import random
 import sqlite3
 import time
+import os
 
 ColorXButton = (235, 85, 85)
 ColorXbutton2 = (250, 105, 105)
@@ -80,6 +81,12 @@ class Button():
             if self.y < pos[1] < self.y + self.height:
                 return True
         return False
+
+    def resave_text(self, t):
+        self.text = t
+
+    def change_y_pos(self, n):
+        self.y = n
 
     def textbox(font30):
         global login, last_lvl_1, last_lvl_2, id_player
@@ -165,9 +172,9 @@ Second = Button(ColorYButton2, 400, 200, 220, 75, 50, "Quit")
 Continue = Button(ColorXbutton2, 250, 100, 200, 75, 25, "Continue?")
 Quit = Button(ColorXButton, 250, 200, 200, 75, 25, "Quit")
 Quit_for_rules = Button(ColorXButton, 250, 300, 200, 75, 25, "Quit")
-Fin = Button(ColorXButton, 250, 100, 200, 75, 25, 'Finality!')
+Fin = Button(ColorXButton, 250, 50, 200, 75, 75, 'Finality!')
 Starting_text = Button(ColorXButton, 250, 25, 200, 75, 50, f'Hello {login}')
-Quit_fin = Button(ColorXButton, 250, 200, 200, 75, 25, "Quit")
+Quit_fin = Button(ColorXButton, 250, 150, 200, 75, 25, "Quit")
 last_result_lvl_1 = Button(ColorXButton, 250, 275, 200, 75, 20, f'Last 1 lvl was completed: {last_lvl_1}')
 last_result_lvl_2 = Button(ColorXButton, 250, 300, 200, 75, 20, f'Last 2 lvl was completed: {last_lvl_2}')
 result_lvl_1 = Button(ColorXButton, 250, 325, 200, 75, 20, f'1 lvl was completed: {time_lvl_1}')
@@ -264,6 +271,7 @@ def Rules():  # делала Лиза
 
 
 def Finallity():
+    global time_lvl_2, time_lvl_1, id_player, login, Button, Quit_fin, Fin
     drawing.fill((0, 100, 210))
     Quit_fin.draw(drawing, (0, 0, 0))
     Fin.write()
@@ -271,7 +279,12 @@ def Finallity():
     if True:
         if not changed_results_lvl_1 and not changed_results_lvl_2:
             result_better.write()
+
+            result_lvl_1.resave_text(f'1 lvl was completed: {time_lvl_1}')
+            result_lvl_1.change_y_pos(300)
             result_lvl_1.write()
+            result_lvl_2.resave_text(f'2 lvl was completed: {time_lvl_2}')
+            result_lvl_2.change_y_pos(325)
             result_lvl_2.write()
             # Подключение к БД
             con = sqlite3.connect("users.db")
@@ -286,13 +299,18 @@ def Finallity():
             con.commit()
             cur.close()
             con.close()
-        if changed_results_lvl_1 and changed_results_lvl_2:
+        elif changed_results_lvl_1 and changed_results_lvl_2:
             result_lvl_1.write()
             result_lvl_2.write()
             last_result_lvl_1.write()
             last_result_lvl_2.write()
-    print(time_lvl_1)
-    print(time_lvl_2)
+        else:
+            result_lvl_1.resave_text(f'1 lvl was completed: {time_lvl_1}')
+            result_lvl_1.change_y_pos(250)
+            result_lvl_1.write()
+            result_lvl_2.resave_text(f'2 lvl was completed: {time_lvl_2}')
+            result_lvl_2.change_y_pos(275)
+            result_lvl_2.write()
 
 
 def Game_lvl1():
@@ -399,6 +417,9 @@ def Game_lvl1():
             toc = time.perf_counter()
             time_lvl_1 = toc - tic
             runnning = True
+        # просто приколюха ржачная, пасхалка
+        if key[pygame.K_1]:
+            os.system('pretty_presents.MP4')
         f2 = pygame.font.SysFont('serif', 30)
         text2 = f2.render(f"Score: {score} .............. Player: {login}", False,
                           (0, 0, 0))
@@ -543,6 +564,10 @@ def Game_lvl2():
             time_lvl_2 = toc - tic
             runnning = True
 
+        # просто приколюха ржачная, пасхалка
+        if key[pygame.K_1]:
+            os.system('pretty_presents.MP4')
+
         f2 = pygame.font.SysFont('serif', 30)
         text2 = f2.render(f"Score: {score}.............. Player: {login}", False,
                           (0, 0, 0))
@@ -603,7 +628,7 @@ while running:
     elif game_state == 'final':
         Finallity()
         pygame.draw.rect(screen, GREY,
-                         (250, 200, 200, 75), 4)
+                         (250, 150, 200, 75), 4)
     pygame.display.update()
 
     for event in pygame.event.get():
@@ -653,5 +678,3 @@ while running:
                 rules.color = ColorButtons3
             else:
                 rules.color = ColorButton3
-print(time_lvl_1)
-print(time_lvl_2)

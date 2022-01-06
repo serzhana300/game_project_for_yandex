@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c135d37e-1665-401e-bad6-6ed95a40ff7f" name="Changes" comment="was fixed final window, fixed buttons, added window with help info (rules with animation snow)">
+    <list default="true" id="c135d37e-1665-401e-bad6-6ed95a40ff7f" name="Changes" comment="added frames around the buttons, started fix problem with DataBase">
+      <change afterPath="$PROJECT_DIR$/pretty_presents.MP4" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/users.db" beforeDir="false" afterPath="$PROJECT_DIR$/users.db" afterDir="false" />
@@ -167,7 +168,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641244706298</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="added frames around the buttons, started fix problem with DataBase">
+      <created>1641420586941</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1641420586941</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -193,20 +201,26 @@
     <MESSAGE value="add textbox, login player, change info in round (score, player)" />
     <MESSAGE value="was added sqlite database, added timer play" />
     <MESSAGE value="was fixed final window, fixed buttons, added window with help info (rules with animation snow)" />
-    <option name="LAST_COMMIT_MESSAGE" value="was fixed final window, fixed buttons, added window with help info (rules with animation snow)" />
+    <MESSAGE value="added frames around the buttons, started fix problem with DataBase" />
+    <option name="LAST_COMMIT_MESSAGE" value="added frames around the buttons, started fix problem with DataBase" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/game.py</url>
-          <line>267</line>
+          <line>275</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/game.py</url>
-          <line>603</line>
+          <line>628</line>
           <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/game.py</url>
+          <line>85</line>
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
