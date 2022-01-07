@@ -89,18 +89,24 @@ class Button():
         self.y = n
 
     def textbox(font30):
-        global login, last_lvl_1, last_lvl_2, id_player
-        f1 = pygame.font.SysFont('Times New Roman', 50)
+        global login, last_lvl_1, last_lvl_2, id_player, time_lvl_1, time_lvl_2
+        f1 = pygame.font.SysFont('Times New Roman', 27)
+        f3 = pygame.font.SysFont('Arial', 29)
         f2 = pygame.font.SysFont('Times New Roman', 20)
         screen.fill((0, 100, 210))
-        text1 = f1.render('\_ Введите имя игрока _/', 20, (0, 0, 0))
+        text0 = f1.render('░░░░▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒░░░░', 20, (0, 0, 0))
+        text1 = f3.render('░░░▒▒▒▒Введите_имя_игрока▒▒▒▒░░░', 20, (0, 0, 0))
+        text2 = f1.render('░░░▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒░░░', 20, (0, 0, 0))
         info = f2.render('*логин должен состоять из 10 или менее символов!', 10, (0, 0, 0))
-        screen.blit(info, (130, 350))
-        screen.blit(text1, (90, 50))
+        screen.blit(info, (130, 300))
+        screen.blit(text0, (69, 25))
+        screen.blit(text1, (87, 61))
+        screen.blit(text2, (126, 100))
         input = pygame.Rect(100, 150, 800, 100)
         color_inactive = YELLLOW
         color_active = BLUE
         color = color_inactive
+        pygame.display.set_caption('Hello!')
         running = False
         done = False
         font = font30
@@ -120,6 +126,15 @@ class Button():
 
                 elif event.type == pygame.KEYDOWN:
                     if running:
+                        if event.key == pygame.K_7:  # added in order not to clog the database
+                            login = 'admin'
+                            time_lvl_1 = 666
+                            time_lvl_2 = 666
+                            id_player = 666
+                            last_lvl_1 = 666
+                            last_lvl_2 = 666
+                            running = False
+                            done = True
                         if len(login) >= 11:
                             if event.key == pygame.K_BACKSPACE:
                                 login = login[:-1]
@@ -173,16 +188,19 @@ Continue = Button(ColorXbutton2, 250, 100, 200, 75, 25, "Continue?")
 Quit = Button(ColorXButton, 250, 200, 200, 75, 25, "Quit")
 Quit_for_rules = Button(ColorXButton, 250, 300, 200, 75, 25, "Quit")
 Fin = Button(ColorXButton, 250, 50, 200, 75, 75, 'Finality!')
-Starting_text = Button(ColorXButton, 250, 25, 200, 75, 50, f'Hello {login}')
+Starting_text = Button(ColorXButton, 250, 60, 200, 75, 75, f'Hello {login} <3!')
 Quit_fin = Button(ColorXButton, 250, 150, 200, 75, 25, "Quit")
 last_result_lvl_1 = Button(ColorXButton, 250, 275, 200, 75, 20, f'Last 1 lvl was completed: {last_lvl_1}')
 last_result_lvl_2 = Button(ColorXButton, 250, 300, 200, 75, 20, f'Last 2 lvl was completed: {last_lvl_2}')
 result_lvl_1 = Button(ColorXButton, 250, 325, 200, 75, 20, f'1 lvl was completed: {time_lvl_1}')
 result_lvl_2 = Button(ColorXButton, 250, 350, 200, 75, 20, f'2 lvl was completed: {time_lvl_2}')
 result_better = Button(ColorXButton, 250, 250, 200, 75, 20, 'You results better than last!')
+intr_1 = Button(ColorXButton, 250, 57, 200, 75, 20, r'//¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\\')
+intr_2 = Button(ColorXButton, 250, 240, 200, 75, 20, r'\\___________________________________________________________//')
 
 
 def Menu():
+    pygame.display.set_caption('Menu')
     drawing.fill((0, 100, 210))
     Starting_text.write()
     First.draw(drawing, (0, 0, 0))
@@ -197,14 +215,18 @@ def Menu():
 
 
 def Menu2():
+    pygame.display.set_caption('Continue?')
     drawing.fill((0, 100, 210))
+    intr_1.write()
     Continue.draw(drawing, (0, 0, 0))
     Quit.draw(drawing, (0, 0, 0))
+    intr_2.write()
 
 
 def Rules():  # делала Лиза
     global game_state
 
+    pygame.display.set_caption('Rules game')
     drawing.fill((0, 100, 210))
     WHITE = [255, 255, 255]
     Quit_for_rules.draw(drawing, (0, 0, 0))
@@ -270,8 +292,9 @@ def Rules():  # делала Лиза
     game_state = 'True'
 
 
-def Finallity():
+def Finality():
     global time_lvl_2, time_lvl_1, id_player, login, Button, Quit_fin, Fin
+    pygame.display.set_caption('Finality!')
     drawing.fill((0, 100, 210))
     Quit_fin.draw(drawing, (0, 0, 0))
     Fin.write()
@@ -315,6 +338,8 @@ def Finallity():
 
 def Game_lvl1():
     global game_state, login, time_lvl_1, changed_results_lvl_1
+
+    pygame.display.set_caption('Round 1')
 
     class Block(pygame.sprite.Sprite):
         def __init__(self, color):
@@ -464,6 +489,8 @@ def Game_lvl1():
 
 def Game_lvl2():
     global game_state, login, time_lvl_2, changed_results_lvl_2
+
+    pygame.display.set_caption('Round 2')
 
     class Block(pygame.sprite.Sprite):
         def __init__(self, color):
@@ -627,7 +654,7 @@ while running:
     elif game_state == 'game_2':
         Game_lvl2()
     elif game_state == 'final':
-        Finallity()
+        Finality()
         pygame.draw.rect(screen, GREY,
                          (250, 150, 200, 75), 4)
     pygame.display.update()
