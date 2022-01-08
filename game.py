@@ -21,15 +21,18 @@ game_state = "True"
 running = True
 changed_results_lvl_1 = True
 changed_results_lvl_2 = True
+changed_results_lvl_3 = True
 pygame.init()
 screen_width = 700
 screen_height = 400
 screen = pygame.display.set_mode([screen_width, screen_height])
 last_lvl_1 = 0
 last_lvl_2 = 0
+last_lvl_3 = 0
 login = ""
 time_lvl_1 = 0
 time_lvl_2 = 0
+time_lvl_3 = 0
 id_player = 0
 con = sqlite3.connect('users.db')
 cur = con.cursor()
@@ -89,7 +92,7 @@ class Button():
         self.y = n
 
     def textbox(font30):
-        global login, last_lvl_1, last_lvl_2, id_player, time_lvl_1, time_lvl_2
+        global login, last_lvl_1, last_lvl_2, id_player, time_lvl_1, time_lvl_2, time_lvl_3, last_lvl_3
         f1 = pygame.font.SysFont('Times New Roman', 27)
         f3 = pygame.font.SysFont('Arial', 29)
         f2 = pygame.font.SysFont('Times New Roman', 20)
@@ -130,9 +133,11 @@ class Button():
                             login = 'admin'
                             time_lvl_1 = 666
                             time_lvl_2 = 666
+                            time_lvl_3 = 666
                             id_player = 666
                             last_lvl_1 = 666
                             last_lvl_2 = 666
+                            last_lvl_3 = 666
                             running = False
                             done = True
                         if len(login) >= 11:
@@ -168,11 +173,15 @@ class Button():
             if value[0][2] is None:
                 last_lvl_1 = 0
             else:
-                last_lvl_1 = value[0][2]
+                last_lvl_1 = float(value[0][2])
             if value[0][3] is None:
                 last_lvl_2 = 0
             else:
-                last_lvl_2 = value[0][3]
+                last_lvl_2 = float(value[0][3])
+            if value[0][4] is None:
+                last_lvl_3 = 0
+            else:
+                last_lvl_3 = float(value[0][4])
         else:
             pass
         return login
@@ -190,10 +199,12 @@ Quit_for_rules = Button(ColorXButton, 250, 300, 200, 75, 25, "Quit")
 Fin = Button(ColorXButton, 250, 50, 200, 75, 75, 'Finality!')
 Starting_text = Button(ColorXButton, 250, 60, 200, 75, 75, f'Hello {login} <3!')
 Quit_fin = Button(ColorXButton, 250, 150, 200, 75, 25, "Quit")
-last_result_lvl_1 = Button(ColorXButton, 250, 275, 200, 75, 20, f'Last 1 lvl was completed: {last_lvl_1}')
-last_result_lvl_2 = Button(ColorXButton, 250, 300, 200, 75, 20, f'Last 2 lvl was completed: {last_lvl_2}')
-result_lvl_1 = Button(ColorXButton, 250, 325, 200, 75, 20, f'1 lvl was completed: {time_lvl_1}')
-result_lvl_2 = Button(ColorXButton, 250, 350, 200, 75, 20, f'2 lvl was completed: {time_lvl_2}')
+last_result_lvl_1 = Button(ColorXButton, 250, 225, 200, 75, 20, f'Last 1 lvl was completed: {last_lvl_1}')
+last_result_lvl_2 = Button(ColorXButton, 250, 250, 200, 75, 20, f'Last 2 lvl was completed: {last_lvl_2}')
+last_result_lvl_3 = Button(ColorXButton, 250, 275, 200, 75, 20, f'Last 3 lvl was completed: {last_lvl_3}')
+result_lvl_1 = Button(ColorXButton, 250, 300, 200, 75, 20, f'1 lvl was completed: {time_lvl_1}')
+result_lvl_2 = Button(ColorXButton, 250, 325, 200, 75, 20, f'2 lvl was completed: {time_lvl_2}')
+result_lvl_3 = Button(ColorXButton, 250, 350, 200, 75, 20, f'3 lvl was completed: {time_lvl_3}')
 result_better = Button(ColorXButton, 250, 250, 200, 75, 20, 'You results better than last!')
 intr_1 = Button(ColorXButton, 250, 57, 200, 75, 20, r'//¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\\')
 intr_2 = Button(ColorXButton, 250, 240, 200, 75, 20, r'\\___________________________________________________________//')
@@ -215,6 +226,15 @@ def Menu():
 
 
 def Menu2():
+    pygame.display.set_caption('Continue?')
+    drawing.fill((0, 100, 210))
+    intr_1.write()
+    Continue.draw(drawing, (0, 0, 0))
+    Quit.draw(drawing, (0, 0, 0))
+    intr_2.write()
+
+
+def Continue_2():
     pygame.display.set_caption('Continue?')
     drawing.fill((0, 100, 210))
     intr_1.write()
@@ -293,22 +313,25 @@ def Rules():  # делала Лиза
 
 
 def Finality():
-    global time_lvl_2, time_lvl_1, id_player, login, Button, Quit_fin, Fin
+    global time_lvl_2, time_lvl_1, id_player, login, Button, Quit_fin, Fin, time_lvl_3
     pygame.display.set_caption('Finality!')
     drawing.fill((0, 100, 210))
     Quit_fin.draw(drawing, (0, 0, 0))
     Fin.write()
 
     if True:
-        if not changed_results_lvl_1 and not changed_results_lvl_2:
+        if not changed_results_lvl_1 and not changed_results_lvl_2 and not changed_results_lvl_3:
             result_better.write()
 
             result_lvl_1.resave_text(f'1 lvl was completed: {time_lvl_1}')
-            result_lvl_1.change_y_pos(300)
+            result_lvl_1.change_y_pos(275)
             result_lvl_1.write()
             result_lvl_2.resave_text(f'2 lvl was completed: {time_lvl_2}')
-            result_lvl_2.change_y_pos(325)
+            result_lvl_2.change_y_pos(300)
             result_lvl_2.write()
+            result_lvl_3.resave_text(f'3 lvl was completed: {time_lvl_3}')
+            result_lvl_3.change_y_pos(325)
+            result_lvl_3.write()
             # Подключение к БД
             con = sqlite3.connect("users.db")
 
@@ -316,17 +339,22 @@ def Finality():
             cur = con.cursor()
 
             # Выполнение запроса и получение всех результатов
-            cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_1, lvl_2) 
-                            VALUES ('{id_player}', '{login}', '{time_lvl_1}', '{time_lvl_2}')""")
+            cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_1, lvl_2, lvl_3) 
+                            VALUES ('{id_player}', '{login}', '{time_lvl_1}', '{time_lvl_2}', '{time_lvl_3}')""")
 
             con.commit()
             cur.close()
             con.close()
-        elif changed_results_lvl_1 and changed_results_lvl_2:
+        elif changed_results_lvl_1 and changed_results_lvl_2 and changed_results_lvl_3:
+            result_lvl_1.resave_text(f'1 lvl was completed: {time_lvl_1}')
             result_lvl_1.write()
+            result_lvl_2.resave_text(f'2 lvl was completed: {time_lvl_2}')
             result_lvl_2.write()
+            result_lvl_3.resave_text(f'3 lvl was completed: {time_lvl_3}')
+            result_lvl_3.write()
             last_result_lvl_1.write()
             last_result_lvl_2.write()
+            last_result_lvl_3.write()
         else:
             result_lvl_1.resave_text(f'1 lvl was completed: {time_lvl_1}')
             result_lvl_1.change_y_pos(250)
@@ -334,6 +362,9 @@ def Finality():
             result_lvl_2.resave_text(f'2 lvl was completed: {time_lvl_2}')
             result_lvl_2.change_y_pos(275)
             result_lvl_2.write()
+            result_lvl_3.resave_text(f'3 lvl was completed: {time_lvl_3}')
+            result_lvl_3.change_y_pos(300)
+            result_lvl_3.write()
 
 
 def Game_lvl1():
@@ -437,6 +468,7 @@ def Game_lvl1():
             if bullet.rect.y < -10:
                 bullet_list.remove(bullet)
                 all_sprites_list.remove(bullet)
+
         key = pygame.key.get_pressed()
         # god mod (for creator testing)
         if key[pygame.K_5]:
@@ -461,8 +493,8 @@ def Game_lvl1():
         cur = con.cursor()
 
         # Выполнение запроса и получение всех результатов
-        cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_1, lvl_2) 
-                            VALUES ('{id_player}', '{login}', '{time_lvl_1}', '{time_lvl_2}')""")
+        cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_1, lvl_2, lvl_3) 
+                            VALUES ('{id_player}', '{login}', '{time_lvl_1}', '{time_lvl_2}', '{time_lvl_3}')""")
 
         con.commit()
         cur.close()
@@ -475,8 +507,8 @@ def Game_lvl1():
         cur = con.cursor()
 
         # Выполнение запроса и получение всех результатов
-        cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_1, lvl_2) 
-                                    VALUES ('{id_player}', '{login}', '{time_lvl_1}', '{time_lvl_2}')""")
+        cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_1, lvl_2, lvl_3) 
+                            VALUES ('{id_player}', '{login}', '{time_lvl_1}', '{time_lvl_2}', '{time_lvl_3}')""")
 
         con.commit()
         cur.close()
@@ -584,6 +616,15 @@ def Game_lvl2():
             if bullet.rect.y < -10:
                 bullet_list.remove(bullet)
                 all_sprites_list.remove(bullet)
+
+        block_velocity = 10
+        block_movement_range = 2
+        block_movement_border = 10
+        for block in block_list:
+            deltaX = block_velocity * random.randrange(-1 * abs(block_movement_range), abs(block_movement_range) + 1)
+            if block_movement_border <= block.rect.x + deltaX <= block_movement_border + 670:
+                block.rect.x = block.rect.x + deltaX
+
         key = pygame.key.get_pressed()
 
         # god mod (for creator testing)
@@ -602,7 +643,7 @@ def Game_lvl2():
         screen.blit(text2, (0, 0))
         all_sprites_list.draw(screen)
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(20)
     if float(last_lvl_2) > float(time_lvl_2):
         # Подключение к БД
         con = sqlite3.connect("users.db")
@@ -611,8 +652,8 @@ def Game_lvl2():
         cur = con.cursor()
 
         # Выполнение запроса и получение всех результатов
-        cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_1, lvl_2) 
-                                VALUES ('{id_player}', '{login}', '{time_lvl_1}', '{time_lvl_2}')""")
+        cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_1, lvl_2, lvl_3) 
+                                VALUES ('{id_player}', '{login}', '{time_lvl_1}', '{time_lvl_2}', '{time_lvl_3}')""")
 
         con.commit()
         cur.close()
@@ -626,13 +667,164 @@ def Game_lvl2():
         cur = con.cursor()
 
         # Выполнение запроса и получение всех результатов
-        cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_1, lvl_2) 
-                                        VALUES ('{id_player}', '{login}', '{time_lvl_1}', '{time_lvl_2}')""")
+        cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_1, lvl_2, lvl_3) 
+                                VALUES ('{id_player}', '{login}', '{time_lvl_1}', '{time_lvl_2}', '{time_lvl_3}')""")
 
         con.commit()
         cur.close()
         con.close()
         changed_results_lvl_2 = False
+    else:
+        pass
+    game_state = 'continue_2'
+
+
+def Game_lvl3():
+    global game_state, login, time_lvl_3, changed_results_lvl_3
+
+    pygame.display.set_caption('Round 3')
+
+    class Block(pygame.sprite.Sprite):
+        def __init__(self, color):
+            super().__init__()
+
+            self.image = pygame.Surface([20, 20])
+            self.image.fill(color)
+
+            self.rect = self.image.get_rect()
+
+    class Player(pygame.sprite.Sprite):
+        def __init__(self):
+            super().__init__()
+
+            self.image = pygame.Surface([20, 20])
+            self.image.fill(RED)
+
+            self.rect = self.image.get_rect()
+
+        def update(self):
+            pos = pygame.mouse.get_pos()
+            self.rect.x = pos[0]
+
+    class Bullet(pygame.sprite.Sprite):
+        def __init__(self):
+            super().__init__()
+            self.image = pygame.Surface([4, 4])
+            self.image.fill(BLACK)
+            self.rect = self.image.get_rect()
+
+        def update(self):
+            self.rect.y -= 3
+
+    pygame.init()
+
+    screen_width = 700
+    screen_height = 400
+    screen = pygame.display.set_mode([screen_width, screen_height])
+
+    all_sprites_list = pygame.sprite.Group()
+    block_list = pygame.sprite.Group()
+    bullet_list = pygame.sprite.Group()
+
+    for i in range(50):
+        block = Block(BLUE)
+        block.rect.x = random.randrange(0, 670)
+        block.rect.y = random.randrange(25, 350)
+        block_list.add(block)
+        all_sprites_list.add(block)
+
+    player = Player()
+    all_sprites_list.add(player)
+    runnning = False
+    clock = pygame.time.Clock()
+    score = 0
+    f2 = pygame.font.SysFont('serif', 35)
+    text2 = f2.render(f"Score: {score} .............. Player: {login}", False,
+                      (250, 200, 0))
+    screen.blit(text2, (0, 0))
+    player.rect.y = 370
+    tic = time.perf_counter()
+
+    while not runnning:
+        if score == 50:
+            toc = time.perf_counter()
+            time_lvl_3 = toc - tic
+            runnning = True
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or \
+                    event.type == pygame.KEYUP and \
+                    event.type == pygame.K_ESCAPE:
+                runnning = True
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                bullet = Bullet()
+                bullet.rect.x = player.rect.x
+                bullet.rect.y = player.rect.y
+                all_sprites_list.add(bullet)
+                bullet_list.add(bullet)
+        all_sprites_list.update()
+        drawing.fill(WHITE)
+        for bullet in bullet_list:
+
+            block_hit_list = pygame.sprite.spritecollide(bullet, block_list, True)
+            for block in block_hit_list:
+                bullet_list.remove(bullet)
+                all_sprites_list.remove(bullet)
+                score += 1
+                pygame.mixer.music.load('Kik.wav')
+                pygame.mixer.music.play()
+            if bullet.rect.y < -10:
+                bullet_list.remove(bullet)
+                all_sprites_list.remove(bullet)
+        key = pygame.key.get_pressed()
+
+        # god mod (for creator testing)
+        if key[pygame.K_5]:
+            toc = time.perf_counter()
+            time_lvl_3 = toc - tic
+            runnning = True
+
+        # просто приколюха ржачная, пасхалка
+        if key[pygame.K_1]:
+            os.system('pretty_gift.MP4')
+
+        f2 = pygame.font.SysFont('serif', 30)
+        text2 = f2.render(f"Score: {score}.............. Player: {login}", False,
+                          (0, 0, 0))
+        screen.blit(text2, (0, 0))
+        all_sprites_list.draw(screen)
+        pygame.display.flip()
+        clock.tick(60)
+    if float(last_lvl_3) > float(time_lvl_3):
+        # Подключение к БД
+        con = sqlite3.connect("users.db")
+
+        # Создание курсора
+        cur = con.cursor()
+
+        # Выполнение запроса и получение всех результатов
+        cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_1, lvl_2, lvl_3) 
+                                VALUES ('{id_player}', '{login}', '{time_lvl_1}', '{time_lvl_2}', '{time_lvl_3}')""")
+
+        con.commit()
+        cur.close()
+        con.close()
+        changed_results_lvl_3 = False
+    elif last_lvl_3 == 0 and float(time_lvl_3) != 0:
+        # Подключение к БД
+        con = sqlite3.connect("users.db")
+
+        # Создание курсора
+        cur = con.cursor()
+
+        # Выполнение запроса и получение всех результатов
+        cur.execute(f"""INSERT OR REPLACE INTO logins (id, login, lvl_1, lvl_2, lvl_3) 
+                                VALUES ('{id_player}', '{login}', '{time_lvl_1}', '{time_lvl_2}', '{time_lvl_3}')""")
+
+        con.commit()
+        cur.close()
+        con.close()
+        changed_results_lvl_3 = False
     else:
         pass
     game_state = 'final'
@@ -645,6 +837,12 @@ while running:
         Game_lvl1()
     elif game_state == 'rules':
         Rules()
+    elif game_state == 'continue_2':
+        Continue_2()
+        pygame.draw.rect(screen, GREY,
+                         (250, 200, 200, 75), 4)
+        pygame.draw.rect(screen, GREY,
+                         (250, 100, 200, 75), 4)
     elif game_state == 'continue':
         Menu2()
         pygame.draw.rect(screen, GREY,
@@ -653,6 +851,8 @@ while running:
                          (250, 100, 200, 75), 4)
     elif game_state == 'game_2':
         Game_lvl2()
+    elif game_state == 'game_3':
+        Game_lvl3()
     elif game_state == 'final':
         Finality()
         pygame.draw.rect(screen, GREY,
@@ -669,6 +869,14 @@ while running:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if Continue.positions(pos):
                     game_state = 'game_2'
+                if Quit.positions(pos):
+                    run = False
+                    pygame.quit()
+                    quit()
+        if game_state == 'continue_2':
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if Continue.positions(pos):
+                    game_state = 'game_3'
                 if Quit.positions(pos):
                     run = False
                     pygame.quit()
@@ -698,6 +906,22 @@ while running:
                 First.color = ColorXButton
             else:
                 First.color = ColorXbutton2
+            if Continue.positions(pos):
+                Continue.color = ColorXButton
+            else:
+                Continue.color = ColorXbutton2
+            if Quit.positions(pos):
+                Quit.color = ColorXButton
+            else:
+                Quit.color = ColorXbutton2
+            if Quit_for_rules.positions(pos):
+                Quit_for_rules.color = ColorXbutton2
+            else:
+                Quit_for_rules.color = ColorXButton
+            if Quit_fin.positions(pos):
+                Quit_fin.color = ColorXbutton2
+            else:
+                Quit_fin.color = ColorXButton
             if Second.positions(pos):
                 Second.color = ColorYButton
             else:

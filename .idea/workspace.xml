@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c135d37e-1665-401e-bad6-6ed95a40ff7f" name="Changes" comment="completed fix DataBase, fixed finality window, added easter eggs &lt;3">
+    <list default="true" id="c135d37e-1665-401e-bad6-6ed95a40ff7f" name="Changes" comment="the admin version for the test was added, the welcome window was changed, window names were added to the line, a text element was added to the intermediate window.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/users.db" beforeDir="false" afterPath="$PROJECT_DIR$/users.db" afterDir="false" />
@@ -68,6 +68,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="game (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$USER_HOME$/Downloads/Telegram Desktop" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <option name="SCRIPT_NAME" value="$USER_HOME$/Downloads/Telegram Desktop/game (2).py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="game" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="game_project_for_yandex" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -92,6 +113,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.game (1)" />
+        <item itemvalue="Python.game (2)" />
       </list>
     </recent_temporary>
   </component>
@@ -195,7 +217,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641513052132</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="the admin version for the test was added, the welcome window was changed, window names were added to the line, a text element was added to the intermediate window.">
+      <created>1641596834620</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1641596834620</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -224,29 +253,25 @@
     <MESSAGE value="added frames around the buttons, started fix problem with DataBase" />
     <MESSAGE value="canceled fix DataBase, fixed finality window, added easter eggs &lt;3" />
     <MESSAGE value="completed fix DataBase, fixed finality window, added easter eggs &lt;3" />
-    <option name="LAST_COMMIT_MESSAGE" value="completed fix DataBase, fixed finality window, added easter eggs &lt;3" />
+    <MESSAGE value="the admin version for the test was added, the welcome window was changed, window names were added to the line, a text element was added to the intermediate window." />
+    <option name="LAST_COMMIT_MESSAGE" value="the admin version for the test was added, the welcome window was changed, window names were added to the line, a text element was added to the intermediate window." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/game.py</url>
-          <line>298</line>
+          <line>318</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/game.py</url>
-          <line>656</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/game.py</url>
-          <line>85</line>
+          <line>88</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/game.py</url>
-          <line>26</line>
+          <line>27</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
