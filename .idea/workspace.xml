@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c135d37e-1665-401e-bad6-6ed95a40ff7f" name="Changes" comment="the admin version for the test was added, the welcome window was changed, window names were added to the line, a text element was added to the intermediate window.">
+    <list default="true" id="c135d37e-1665-401e-bad6-6ed95a40ff7f" name="Changes" comment="3 lvl was added, bugs and button colors were fixed, changes were corrected and the results were entered into the database">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users.db" beforeDir="false" afterPath="$PROJECT_DIR$/users.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/intro.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/kik.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pretty_gift.MP4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/users.db" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -224,7 +227,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641596834620</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="3 lvl was added, bugs and button colors were fixed, changes were corrected and the results were entered into the database">
+      <created>1641685461907</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1641685461907</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -254,24 +264,25 @@
     <MESSAGE value="canceled fix DataBase, fixed finality window, added easter eggs &lt;3" />
     <MESSAGE value="completed fix DataBase, fixed finality window, added easter eggs &lt;3" />
     <MESSAGE value="the admin version for the test was added, the welcome window was changed, window names were added to the line, a text element was added to the intermediate window." />
-    <option name="LAST_COMMIT_MESSAGE" value="the admin version for the test was added, the welcome window was changed, window names were added to the line, a text element was added to the intermediate window." />
+    <MESSAGE value="3 lvl was added, bugs and button colors were fixed, changes were corrected and the results were entered into the database" />
+    <option name="LAST_COMMIT_MESSAGE" value="3 lvl was added, bugs and button colors were fixed, changes were corrected and the results were entered into the database" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/game.py</url>
-          <line>318</line>
+          <line>343</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/game.py</url>
-          <line>88</line>
+          <line>99</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/game.py</url>
-          <line>27</line>
+          <line>35</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>

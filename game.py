@@ -4,12 +4,17 @@ import sqlite3
 import time
 import os
 
+# библиотеки
+
+# цвета кнопок
 ColorXButton = (235, 85, 85)
 ColorXbutton2 = (250, 105, 105)
 ColorYButton = (225, 225, 0)
 ColorYButton2 = (240, 240, 4)
 ColorButton3 = (119, 221, 119)
 ColorButtons3 = (109, 211, 109)
+
+# общие цвета
 ColorFon = (0, 100, 210)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -17,15 +22,20 @@ RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 YELLLOW = (255, 255, 0)
 GREY = (128, 128, 128)
+
 game_state = "True"
 running = True
 changed_results_lvl_1 = True
 changed_results_lvl_2 = True
 changed_results_lvl_3 = True
+
+# начальные размеры
 pygame.init()
 screen_width = 700
 screen_height = 400
 screen = pygame.display.set_mode([screen_width, screen_height])
+
+# начальные данные по БД
 last_lvl_1 = 0
 last_lvl_2 = 0
 last_lvl_3 = 0
@@ -34,10 +44,11 @@ time_lvl_1 = 0
 time_lvl_2 = 0
 time_lvl_3 = 0
 id_player = 0
-con = sqlite3.connect('users.db')
+con = sqlite3.connect('data/users.db')
 cur = con.cursor()
 cur.execute(f'SELECT * FROM logins')
 value = cur.fetchall()
+
 if value:
     n = value[-1]
     id_player = int(n[0]) + 1
@@ -146,14 +157,14 @@ class Button():
                             else:
                                 continue
                         if event.key == pygame.K_RETURN:
-                            print(login)
+                            # print(login)
                             done = True
                         elif event.key == pygame.K_BACKSPACE:
                             login = login[:-1]
                         else:
                             login += event.unicode
 
-                        print("DEBUG: text is now [%s]" % (login))
+                        # print("DEBUG: text is now [%s]" % (login))
 
                         pygame.display.flip()
             text_surface = font.render(login, True, BLACK)
@@ -163,7 +174,7 @@ class Button():
             pygame.draw.rect(screen, color, input, 2)
             screen.blit(text_surface, (input.x + 5, input.y + 5))
             pygame.display.flip()
-        con = sqlite3.connect('users.db')
+        con = sqlite3.connect('data/users.db')
         cur = con.cursor()
         cur.execute(f'SELECT * FROM logins WHERE login = "{login}" ')
         value = cur.fetchall()
@@ -190,6 +201,7 @@ class Button():
     textbox(font)
 
 
+# создание кнопок
 rules = Button(ColorButtons3, 240, 300, 240, 75, 50, "Rules")
 First = Button(ColorXbutton2, 100, 200, 220, 75, 50, "Start")
 Second = Button(ColorYButton2, 400, 200, 220, 75, 50, "Quit")
@@ -199,6 +211,8 @@ Quit_for_rules = Button(ColorXButton, 250, 300, 200, 75, 25, "Quit")
 Fin = Button(ColorXButton, 250, 50, 200, 75, 75, 'Finality!')
 Starting_text = Button(ColorXButton, 250, 60, 200, 75, 75, f'Hello {login} <3!')
 Quit_fin = Button(ColorXButton, 250, 150, 200, 75, 25, "Quit")
+
+# создание необходимых строк ввиде кнопки
 last_result_lvl_1 = Button(ColorXButton, 250, 225, 200, 75, 20, f'Last 1 lvl was completed: {last_lvl_1}')
 last_result_lvl_2 = Button(ColorXButton, 250, 250, 200, 75, 20, f'Last 2 lvl was completed: {last_lvl_2}')
 last_result_lvl_3 = Button(ColorXButton, 250, 275, 200, 75, 20, f'Last 3 lvl was completed: {last_lvl_3}')
@@ -257,6 +271,8 @@ def Rules():  # делала Лиза
 
     cash = []
 
+    # создание врагов
+
     for i in range(50):
         x = random.randrange(0, 700)
         y = random.randrange(0, 400)
@@ -313,10 +329,21 @@ def Rules():  # делала Лиза
 
 
 def Finality():
+    pict = ['data/images/1.jpg',
+            'data/images/2.jpg',
+            'data/images/3.jpg',
+            'data/images/4.jpg',
+            'data/images/5.jpg',
+            'data/images/6.jpg'
+            ]
+    # для удобства создаем список наших изображений
+
     global time_lvl_2, time_lvl_1, id_player, login, Button, Quit_fin, Fin, time_lvl_3
     pygame.display.set_caption('Finality!')
     drawing.fill((0, 100, 210))
     Quit_fin.draw(drawing, (0, 0, 0))
+    pygame.draw.rect(screen, GREY,
+                     (250, 150, 200, 75), 4)
     Fin.write()
 
     if True:
@@ -333,7 +360,7 @@ def Finality():
             result_lvl_3.change_y_pos(325)
             result_lvl_3.write()
             # Подключение к БД
-            con = sqlite3.connect("users.db")
+            con = sqlite3.connect("data/users.db")
 
             # Создание курсора
             cur = con.cursor()
@@ -345,6 +372,9 @@ def Finality():
             con.commit()
             cur.close()
             con.close()
+
+        # проверка и сравнение рзультатов на полную несхожесть
+
         elif changed_results_lvl_1 and changed_results_lvl_2 and changed_results_lvl_3:
             result_lvl_1.resave_text(f'1 lvl was completed: {time_lvl_1}')
             result_lvl_1.write()
@@ -365,6 +395,17 @@ def Finality():
             result_lvl_3.resave_text(f'3 lvl was completed: {time_lvl_3}')
             result_lvl_3.change_y_pos(300)
             result_lvl_3.write()
+
+        # начинаем цикл изображений для того, чтобы сделать анимацию(покадровую смену)
+        for i in pict:
+            # загружаем изображения
+            x = pygame.image.load(i)
+            # размещаем изображения
+            screen.blit(x, [10, 150]), screen.blit(x, [590, 150])
+            # обновляем
+            pygame.display.flip()
+            # выбираем перервы
+            pygame.time.delay(250)
 
 
 def Game_lvl1():
@@ -408,6 +449,9 @@ def Game_lvl1():
     screen_width = 700
     screen_height = 400
     screen = pygame.display.set_mode([screen_width, screen_height])
+
+    # создание групп спрайтов
+
     all_sprites_list = pygame.sprite.Group()
     block_list = pygame.sprite.Group()
     bullet_list = pygame.sprite.Group()
@@ -463,7 +507,7 @@ def Game_lvl1():
                 bullet_list.remove(bullet)
                 all_sprites_list.remove(bullet)
                 score += 1
-                pygame.mixer.music.load('Kik.wav')
+                pygame.mixer.music.load('data/sound/Kik.wav')
                 pygame.mixer.music.play()
             if bullet.rect.y < -10:
                 bullet_list.remove(bullet)
@@ -477,17 +521,20 @@ def Game_lvl1():
             runnning = True
         # просто приколюха ржачная, пасхалка
         if key[pygame.K_1]:
-            os.system('pretty_gift.MP4')
+            os.system('data/images/pretty_gift.MP4')
+
         f2 = pygame.font.SysFont('serif', 30)
         text2 = f2.render(f"Score: {score} .............. Player: {login}", False,
                           (0, 0, 0))
-        screen.blit(text2, (0, 0))
+        screen.blit(text2,
+                    (0, 0))
         all_sprites_list.draw(screen)
         pygame.display.flip()
+
         clock.tick(60)
     if float(last_lvl_1) > float(time_lvl_1):
         # Подключение к БД
-        con = sqlite3.connect("users.db")
+        con = sqlite3.connect("data/users.db")
 
         # Создание курсора
         cur = con.cursor()
@@ -500,8 +547,9 @@ def Game_lvl1():
         cur.close()
         con.close()
         changed_results_lvl_1 = False
+
     elif last_lvl_1 == 0 and time_lvl_1 != 0:
-        con = sqlite3.connect("users.db")
+        con = sqlite3.connect("data/users.db")
 
         # Создание курсора
         cur = con.cursor()
@@ -560,8 +608,11 @@ def Game_lvl2():
 
     screen_width = 700
     screen_height = 400
+
+    # задаем размеры
     screen = pygame.display.set_mode([screen_width, screen_height])
 
+    # обьединенние спрайтов
     all_sprites_list = pygame.sprite.Group()
     block_list = pygame.sprite.Group()
     bullet_list = pygame.sprite.Group()
@@ -596,6 +647,7 @@ def Game_lvl2():
                     event.type == pygame.KEYUP and \
                     event.type == pygame.K_ESCAPE:
                 runnning = True
+
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 bullet = Bullet()
                 bullet.rect.x = player.rect.x
@@ -604,6 +656,7 @@ def Game_lvl2():
                 bullet_list.add(bullet)
         all_sprites_list.update()
         drawing.fill(WHITE)
+
         for bullet in bullet_list:
 
             block_hit_list = pygame.sprite.spritecollide(bullet, block_list, True)
@@ -611,7 +664,7 @@ def Game_lvl2():
                 bullet_list.remove(bullet)
                 all_sprites_list.remove(bullet)
                 score += 1
-                pygame.mixer.music.load('Kik.wav')
+                pygame.mixer.music.load('data/sound/Kik.wav')
                 pygame.mixer.music.play()
             if bullet.rect.y < -10:
                 bullet_list.remove(bullet)
@@ -620,8 +673,10 @@ def Game_lvl2():
         block_velocity = 10
         block_movement_range = 2
         block_movement_border = 10
+
         for block in block_list:
             deltaX = block_velocity * random.randrange(-1 * abs(block_movement_range), abs(block_movement_range) + 1)
+
             if block_movement_border <= block.rect.x + deltaX <= block_movement_border + 670:
                 block.rect.x = block.rect.x + deltaX
 
@@ -635,7 +690,7 @@ def Game_lvl2():
 
         # просто приколюха ржачная, пасхалка
         if key[pygame.K_1]:
-            os.system('pretty_gift.MP4')
+            os.system('data/images/pretty_gift.MP4')
 
         f2 = pygame.font.SysFont('serif', 30)
         text2 = f2.render(f"Score: {score}.............. Player: {login}", False,
@@ -661,7 +716,7 @@ def Game_lvl2():
         changed_results_lvl_2 = False
     elif last_lvl_2 == 0 and float(time_lvl_2) != 0:
         # Подключение к БД
-        con = sqlite3.connect("users.db")
+        con = sqlite3.connect("data/users.db")
 
         # Создание курсора
         cur = con.cursor()
@@ -675,10 +730,12 @@ def Game_lvl2():
         con.close()
         changed_results_lvl_2 = False
     else:
+
         pass
     game_state = 'continue_2'
 
 
+# третий уровень
 def Game_lvl3():
     global game_state, login, time_lvl_3, changed_results_lvl_3
 
@@ -746,6 +803,9 @@ def Game_lvl3():
     tic = time.perf_counter()
 
     while not runnning:
+
+        # сравнение счета
+
         if score == 50:
             toc = time.perf_counter()
             time_lvl_3 = toc - tic
@@ -764,14 +824,17 @@ def Game_lvl3():
                 bullet_list.add(bullet)
         all_sprites_list.update()
         drawing.fill(WHITE)
+
         for bullet in bullet_list:
 
             block_hit_list = pygame.sprite.spritecollide(bullet, block_list, True)
             for block in block_hit_list:
                 bullet_list.remove(bullet)
                 all_sprites_list.remove(bullet)
+                # увеличиваем очки при попадании
                 score += 1
-                pygame.mixer.music.load('Kik.wav')
+                # используем запуск музыки при столкновении с обьектом
+                pygame.mixer.music.load('data/sound/Kik.wav')
                 pygame.mixer.music.play()
             if bullet.rect.y < -10:
                 bullet_list.remove(bullet)
@@ -786,7 +849,7 @@ def Game_lvl3():
 
         # просто приколюха ржачная, пасхалка
         if key[pygame.K_1]:
-            os.system('pretty_gift.MP4')
+            os.system('data/images/pretty_gift.MP4')
 
         f2 = pygame.font.SysFont('serif', 30)
         text2 = f2.render(f"Score: {score}.............. Player: {login}", False,
@@ -797,7 +860,7 @@ def Game_lvl3():
         clock.tick(60)
     if float(last_lvl_3) > float(time_lvl_3):
         # Подключение к БД
-        con = sqlite3.connect("users.db")
+        con = sqlite3.connect("data/users.db")
 
         # Создание курсора
         cur = con.cursor()
@@ -812,7 +875,7 @@ def Game_lvl3():
         changed_results_lvl_3 = False
     elif last_lvl_3 == 0 and float(time_lvl_3) != 0:
         # Подключение к БД
-        con = sqlite3.connect("users.db")
+        con = sqlite3.connect("data/users.db")
 
         # Создание курсора
         cur = con.cursor()
@@ -861,10 +924,12 @@ while running:
 
     for event in pygame.event.get():
         pos = pygame.mouse.get_pos()
+
         if game_state == 'rules':
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if Quit_for_rules.positions(pos):
                     game_state = 'True'
+
         if game_state == 'continue':
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if Continue.positions(pos):
@@ -873,6 +938,7 @@ while running:
                     run = False
                     pygame.quit()
                     quit()
+
         if game_state == 'continue_2':
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if Continue.positions(pos):
@@ -881,6 +947,7 @@ while running:
                     run = False
                     pygame.quit()
                     quit()
+
         if game_state == "True":
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if rules.positions(pos):
@@ -891,6 +958,7 @@ while running:
                     run = False
                     pygame.quit()
                     quit()
+
         if game_state == 'final':
 
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -900,6 +968,9 @@ while running:
                     quit()
         if event.type == pygame.QUIT:
             running = False
+
+        # используем смену цвета кнопки при наведении на нее
+        # создаем впечатление "живой" игры
 
         if event.type == pygame.MOUSEMOTION:
             if First.positions(pos):
