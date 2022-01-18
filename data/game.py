@@ -24,7 +24,6 @@ YELLLOW = (255, 255, 0)
 GREY = (128, 128, 128)
 
 game_state = "True"
-
 running = True
 changed_results_lvl_1 = True
 changed_results_lvl_2 = True
