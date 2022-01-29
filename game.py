@@ -685,8 +685,8 @@ def Game_lvl2():
                 bullet_list.remove(bullet)
                 all_sprites_list.remove(bullet)
 
-        block_velocity = 10
-        block_movement_range = 2
+        block_velocity = 2
+        block_movement_range = 1
         block_movement_border = 10
 
         for block in block_list:
@@ -713,7 +713,7 @@ def Game_lvl2():
         screen.blit(text2, (0, 0))
         all_sprites_list.draw(screen)
         pygame.display.flip()
-        clock.tick(20)
+        clock.tick(60)
     if float(last_lvl_2) > float(time_lvl_2):
         # Подключение к БД
         con = sqlite3.connect("users.db")
@@ -790,25 +790,26 @@ def Game_lvl3():
         def update(self):
             self.rect.y -= 3
 
+
     pygame.init()
 
     screen_width = 700
     screen_height = 400
     screen = pygame.display.set_mode([screen_width, screen_height])
 
-    all_sprites_list = pygame.sprite.Group()
+    all_sprites_list_1 = pygame.sprite.Group()
     block_list = pygame.sprite.Group()
     bullet_list = pygame.sprite.Group()
 
-    for i in range(50):
+    for i in range(10):
         block = Block(BLUE)
         block.rect.x = random.randrange(0, 670)
-        block.rect.y = random.randrange(25, 350)
+        block.rect.y = random.randrange(25, 35)
         block_list.add(block)
-        all_sprites_list.add(block)
+        all_sprites_list_1.add(block)
 
     player = Player()
-    all_sprites_list.add(player)
+    all_sprites_list_1.add(player)
     runnning = False
     clock = pygame.time.Clock()
     score = 0
@@ -823,7 +824,7 @@ def Game_lvl3():
 
         # сравнение счета
 
-        if score == 50:
+        if score == 10:
             toc = time.perf_counter()
             time_lvl_3 = toc - tic
             runnning = True
@@ -837,9 +838,9 @@ def Game_lvl3():
                 bullet = Bullet()
                 bullet.rect.x = player.rect.x
                 bullet.rect.y = player.rect.y
-                all_sprites_list.add(bullet)
+                all_sprites_list_1.add(bullet)
                 bullet_list.add(bullet)
-        all_sprites_list.update()
+        all_sprites_list_1.update()
         drawing.fill(WHITE)
 
         for bullet in bullet_list:
@@ -847,7 +848,7 @@ def Game_lvl3():
             block_hit_list = pygame.sprite.spritecollide(bullet, block_list, True)
             for block in block_hit_list:
                 bullet_list.remove(bullet)
-                all_sprites_list.remove(bullet)
+                all_sprites_list_1.remove(bullet)
                 # увеличиваем очки при попадании
                 score += 1
                 # используем запуск музыки при столкновении с обьектом
@@ -855,8 +856,18 @@ def Game_lvl3():
                 pygame.mixer.music.play()
             if bullet.rect.y < -10:
                 bullet_list.remove(bullet)
-                all_sprites_list.remove(bullet)
+                all_sprites_list_1.remove(bullet)
         key = pygame.key.get_pressed()
+
+        block_velocity = 1
+        block_movement_range = 1
+        block_movement_border = 1
+
+        for block in block_list:
+            deltaY = block_velocity * random.randrange(abs(block_movement_range), abs(block_movement_range) + 1)
+
+            if block_movement_border <= block.rect.y + deltaY <= block_movement_border + 350:
+                block.rect.y = block.rect.y + deltaY
 
         # god mod (for creator testing)
         if key[pygame.K_5]:
@@ -872,9 +883,9 @@ def Game_lvl3():
         text2 = f2.render(f"Score: {score}.............. Player: {login}", False,
                           (0, 0, 0))
         screen.blit(text2, (0, 0))
-        all_sprites_list.draw(screen)
+        all_sprites_list_1.draw(screen)
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(20)
     if float(last_lvl_3) > float(time_lvl_3):
         # Подключение к БД
         con = sqlite3.connect("data/users.db")
