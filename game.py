@@ -216,9 +216,9 @@ Starting_text = Button(ColorXButton, 250, 60, 200, 75, 75, f'Hello {login} <3!')
 Quit_fin = Button(ColorXButton, 250, 150, 200, 75, 25, "Quit")
 
 # создание необходимых строк ввиде кнопки
-last_result_lvl_1 = Button(ColorXButton, 250, 225, 200, 75, 20, f'Last 1 lvl was completed: {last_lvl_1}')
-last_result_lvl_2 = Button(ColorXButton, 250, 250, 200, 75, 20, f'Last 2 lvl was completed: {last_lvl_2}')
-last_result_lvl_3 = Button(ColorXButton, 250, 275, 200, 75, 20, f'Last 3 lvl was completed: {last_lvl_3}')
+last_result_lvl_1 = Button(ColorXButton, 250, 225, 200, 75, 20, f'Last 1 lvl was completed: {last_lvl_1} sec.')
+last_result_lvl_2 = Button(ColorXButton, 250, 250, 200, 75, 20, f'Last 2 lvl was completed: {last_lvl_2} sec.')
+last_result_lvl_3 = Button(ColorXButton, 250, 275, 200, 75, 20, f'Last 3 lvl was completed: {last_lvl_3} sec.')
 result_lvl_1 = Button(ColorXButton, 250, 300, 200, 75, 20, f'1 lvl was completed: {time_lvl_1}')
 result_lvl_2 = Button(ColorXButton, 250, 325, 200, 75, 20, f'2 lvl was completed: {time_lvl_2}')
 result_lvl_3 = Button(ColorXButton, 250, 350, 200, 75, 20, f'3 lvl was completed: {time_lvl_3}')
@@ -361,13 +361,13 @@ def Finality():
         if not changed_results_lvl_1 and not changed_results_lvl_2 and not changed_results_lvl_3:
             result_better.write()
 
-            result_lvl_1.resave_text(f'1 lvl was completed: {time_lvl_1}')
+            result_lvl_1.resave_text(f'1 lvl was completed: {time_lvl_1} sec.')
             result_lvl_1.change_y_pos(275)
             result_lvl_1.write()
-            result_lvl_2.resave_text(f'2 lvl was completed: {time_lvl_2}')
+            result_lvl_2.resave_text(f'2 lvl was completed: {time_lvl_2} sec.')
             result_lvl_2.change_y_pos(300)
             result_lvl_2.write()
-            result_lvl_3.resave_text(f'3 lvl was completed: {time_lvl_3}')
+            result_lvl_3.resave_text(f'3 lvl was completed: {time_lvl_3} sec.')
             result_lvl_3.change_y_pos(325)
             result_lvl_3.write()
             # Подключение к БД
@@ -387,23 +387,23 @@ def Finality():
         # проверка и сравнение рзультатов на полную несхожесть
 
         elif changed_results_lvl_1 and changed_results_lvl_2 and changed_results_lvl_3:
-            result_lvl_1.resave_text(f'1 lvl was completed: {time_lvl_1}')
+            result_lvl_1.resave_text(f'1 lvl was completed: {time_lvl_1} sec.')
             result_lvl_1.write()
-            result_lvl_2.resave_text(f'2 lvl was completed: {time_lvl_2}')
+            result_lvl_2.resave_text(f'2 lvl was completed: {time_lvl_2} sec.')
             result_lvl_2.write()
-            result_lvl_3.resave_text(f'3 lvl was completed: {time_lvl_3}')
+            result_lvl_3.resave_text(f'3 lvl was completed: {time_lvl_3} sec.')
             result_lvl_3.write()
             last_result_lvl_1.write()
             last_result_lvl_2.write()
             last_result_lvl_3.write()
         else:
-            result_lvl_1.resave_text(f'1 lvl was completed: {time_lvl_1}')
+            result_lvl_1.resave_text(f'1 lvl was completed: {time_lvl_1} sec.')
             result_lvl_1.change_y_pos(250)
             result_lvl_1.write()
-            result_lvl_2.resave_text(f'2 lvl was completed: {time_lvl_2}')
+            result_lvl_2.resave_text(f'2 lvl was completed: {time_lvl_2} sec.')
             result_lvl_2.change_y_pos(275)
             result_lvl_2.write()
-            result_lvl_3.resave_text(f'3 lvl was completed: {time_lvl_3}')
+            result_lvl_3.resave_text(f'3 lvl was completed: {time_lvl_3} sec.')
             result_lvl_3.change_y_pos(300)
             result_lvl_3.write()
 
@@ -416,7 +416,7 @@ def Finality():
             # обновляем
             pygame.display.flip()
             # выбираем перервы
-            pygame.time.delay(250)
+            pygame.time.delay(60)
 
 
 def Game_lvl1():
@@ -491,7 +491,7 @@ def Game_lvl1():
     while not runnning:
         if score == 75:
             toc = time.perf_counter()
-            time_lvl_1 = toc - tic
+            time_lvl_1 = round(toc - tic, 2)
             runnning = True
 
         for event in pygame.event.get():
@@ -502,7 +502,7 @@ def Game_lvl1():
             # add god_mode (for skip test)
             elif event.type == pygame.K_5:
                 toc = time.perf_counter()
-                time_lvl_1 = toc - tic
+                time_lvl_1 = round(toc - tic, 2)
                 runnning = True
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 bullet = Bullet()
@@ -530,7 +530,7 @@ def Game_lvl1():
         # god mod (for creator testing)
         if key[pygame.K_5]:
             toc = time.perf_counter()
-            time_lvl_1 = toc - tic
+            time_lvl_1 = round(toc - tic, 2)
             runnning = True
         # просто приколюха ржачная, пасхалка
         if key[pygame.K_1]:
@@ -654,7 +654,7 @@ def Game_lvl2():
     while not runnning:
         if score == 50:
             toc = time.perf_counter()
-            time_lvl_2 = toc - tic
+            time_lvl_2 = round(toc - tic, 2)
             runnning = True
 
         for event in pygame.event.get():
@@ -700,7 +700,7 @@ def Game_lvl2():
         # god mod (for creator testing)
         if key[pygame.K_5]:
             toc = time.perf_counter()
-            time_lvl_2 = toc - tic
+            time_lvl_2 = round(toc - tic, 2)
             runnning = True
 
         # просто приколюха ржачная, пасхалка
@@ -716,7 +716,7 @@ def Game_lvl2():
         clock.tick(60)
     if float(last_lvl_2) > float(time_lvl_2):
         # Подключение к БД
-        con = sqlite3.connect("users.db")
+        con = sqlite3.connect("data/users.db")
 
         # Создание курсора
         cur = con.cursor()
@@ -801,10 +801,10 @@ def Game_lvl3():
     block_list = pygame.sprite.Group()
     bullet_list = pygame.sprite.Group()
 
-    for i in range(10):
+    for i in range(50):
         block = Block(BLUE)
         block.rect.x = random.randrange(0, 670)
-        block.rect.y = random.randrange(25, 35)
+        block.rect.y = random.randrange(25, 350)
         block_list.add(block)
         all_sprites_list_1.add(block)
 
@@ -824,9 +824,9 @@ def Game_lvl3():
 
         # сравнение счета
 
-        if score == 10:
+        if score == 50:
             toc = time.perf_counter()
-            time_lvl_3 = toc - tic
+            time_lvl_3 = round(toc - tic, 2)
             runnning = True
 
         for event in pygame.event.get():
@@ -860,19 +860,23 @@ def Game_lvl3():
         key = pygame.key.get_pressed()
 
         block_velocity = 1
-        block_movement_range = 1
-        block_movement_border = 1
+        block_movement_range = 5
+        block_movement_border = 10
 
         for block in block_list:
-            deltaY = block_velocity * random.randrange(abs(block_movement_range), abs(block_movement_range) + 1)
+            deltaX = block_velocity * random.randrange(-1 * abs(block_movement_range), abs(block_movement_range) + 1)
+            deltaY = block_velocity * random.randrange(-1 * abs(block_movement_range), abs(block_movement_range) + 1)
 
-            if block_movement_border <= block.rect.y + deltaY <= block_movement_border + 350:
+            if block_movement_border <= block.rect.x + deltaX <= block_movement_border + 670:
+                block.rect.x = block.rect.x + deltaX
+
+            if block_movement_border <= block.rect.y + deltaY <= block_movement_border + 300:
                 block.rect.y = block.rect.y + deltaY
 
         # god mod (for creator testing)
         if key[pygame.K_5]:
             toc = time.perf_counter()
-            time_lvl_3 = toc - tic
+            time_lvl_3 = round(toc - tic, 2)
             runnning = True
 
         # просто приколюха ржачная, пасхалка
@@ -885,7 +889,7 @@ def Game_lvl3():
         screen.blit(text2, (0, 0))
         all_sprites_list_1.draw(screen)
         pygame.display.flip()
-        clock.tick(20)
+        clock.tick(60)
     if float(last_lvl_3) > float(time_lvl_3):
         # Подключение к БД
         con = sqlite3.connect("data/users.db")
